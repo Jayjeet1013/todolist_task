@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-const YourComponent = () => {
+const app = () => {
   const [tasks, setTasks] = useState<string[]>([]);
   const [newTask, setNewTask] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -85,4 +85,4 @@ const YourComponent = () => {
   );
 };
 
-export default YourComponent;
+export default app;
