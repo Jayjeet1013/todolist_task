@@ -51,7 +51,7 @@ const app = () => {
           />
           <button
             onClick={addTask}
-            className='border bg-green-600 rounded-md px-2 py-1'
+            className='border bg-green-600 rounded-md px-2 py-1 text-white'
           >
             Add
           </button>
@@ -72,7 +72,7 @@ const app = () => {
                 {task}{' '}
                 <button
                   onClick={() => deleteTask(index)}
-                  className='text-red-600 ml-2'
+                  className='border bg-green-600 rounded-md px-2 py-1 text-white'
                 >
                   Delete
                 </button>
