@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
     if (newTask.trim() !== "") {
       setTasks([...tasks, newTask]);
       setNewTask("");
-      
+
       // Recalculate current page based on the updated tasks
       const totalPages = Math.ceil(tasks.length / pageSize);
       const lastPage = totalPages || 1; // If there are no tasks, set to page 1
@@ -85,7 +85,9 @@ const App = () => {
               <li key={index} className="py-2">
                 {task}{" "}
                 <button
-                  onClick={() => deleteTask(index + (currentPage - 1) * pageSize)}
+                  onClick={() =>
+                    deleteTask(index + (currentPage - 1) * pageSize)
+                  }
                   className="border bg-green-600 rounded-md px-2 py-1 text-white"
                 >
                   Delete
