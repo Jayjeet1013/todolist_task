@@ -1,10 +1,12 @@
-"use client";
+"use client"
 import React, { useState, useEffect } from "react";
 
-const app = () => {
+const App = () => {
   const [tasks, setTasks] = useState<string[]>([]);
   const [newTask, setNewTask] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 5; // Number of tasks per page
 
   // Load tasks from localStorage on component mount
   useEffect(() => {
@@ -23,6 +25,11 @@ const app = () => {
     if (newTask.trim() !== "") {
       setTasks([...tasks, newTask]);
       setNewTask("");
+      
+      // Recalculate current page based on the updated tasks
+      const totalPages = Math.ceil(tasks.length / pageSize);
+      const lastPage = totalPages || 1; // If there are no tasks, set to page 1
+      setCurrentPage(lastPage);
     }
   };
 
@@ -36,6 +43,13 @@ const app = () => {
     task.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const totalPages = Math.ceil(filteredTasks.length / pageSize);
+
+  const visibleTasks = filteredTasks.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div className="min-h-screen bg-white text-black">
       <main>
@@ -47,7 +61,7 @@ const app = () => {
             placeholder="Task"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
-            className="border border-black p-1 rounded-md text-center mr-3"
+            className="border border-black p-1 rounded-md text-center mr-3 "
           />
           <button
             onClick={addTask}
@@ -67,11 +81,11 @@ const app = () => {
         </div>
         <div className="text-center pt-6">
           <ul>
-            {filteredTasks.map((task, index) => (
+            {visibleTasks.map((task, index) => (
               <li key={index} className="py-2">
                 {task}{" "}
                 <button
-                  onClick={() => deleteTask(index)}
+                  onClick={() => deleteTask(index + (currentPage - 1) * pageSize)}
                   className="border bg-green-600 rounded-md px-2 py-1 text-white"
                 >
                   Delete
@@ -80,9 +94,26 @@ const app = () => {
             ))}
           </ul>
         </div>
+        <div className="text-center pt-6">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="border bg-blue-500 text-white rounded-md px-2 py-1"
+          >
+            Previous
+          </button>{" "}
+          <span>{`Page ${currentPage} of ${totalPages}`}</span>{" "}
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="border bg-blue-500 text-white rounded-md px-2 py-1"
+          >
+            Next
+          </button>
+        </div>
       </main>
     </div>
   );
 };
 
-export default app;
+export default App;
